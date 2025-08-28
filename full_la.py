@@ -76,6 +76,11 @@ def get_GGN_Hessian(per_sample_jacobian, loss_wrt_output_Hessian, layer_name_lis
 
     The GGN is approximated as H_ggn = sum_n(J_n.T @ H_loss_n @ J_n), where J_n is
     the Jacobian and H_loss_n is the loss Hessian for the n-th sample. 
+    
+    This function constructs the full EF matrix block by block.  
+    The (i, j) block is 
+        (∂f/∂θ^(i))^T @ H_loss @ ∂f/∂θ^(j)
+    where ∂f/∂θ^(i) is the Jacobians of the model output f w.r.t. parameters of the i-th layer.
 
     Args:
         per_sample_jacobian (dict[str, torch.Tensor]): A dictionary of per-sample Jacobians, {'fc1.weight': [B, C, Dout, Din], ...}
@@ -88,10 +93,6 @@ def get_GGN_Hessian(per_sample_jacobian, loss_wrt_output_Hessian, layer_name_lis
         torch.Tensor: The full GGN Hessian matrix, assembled from all blocks,
                       with shape [P, P], where P is the total number of model parameters.
     """
-    
-    # The nested loops below construct the full GGN Hessian block by block.
-    # The (i, j) block is (∂f/∂θ^(i))^T @ H_loss @ ∂f/∂θ^(j)
-    # where ∂f/∂θ^(i) is the Jacobians of the model output f w.r.t. parameters of the i-th layer.
     
     full_GGN_rows = []
     for layer_name_1 in layer_name_list:
@@ -158,7 +159,12 @@ def get_EF_Hessian(per_sample_gradient, layer_name_list):
 
     The EF is the sum of the outer products of per-sample gradients:
     H_ef = sum_n( grad_n @ grad_n.T )
-    where grad_n is the gradient of the loss for the n-th sample. 
+    where grad_n is the gradient of the loss for the n-th sample.
+    
+    This function constructs the full EF matrix block by block.  
+    The (i, j) block is 
+        (∂ℓ_n/∂θ^(i))^T @ ∂ℓ_n/∂θ^(j) 
+    where ∂ℓ_n/∂θ^(i) is the gradient of the loss for sample n with respect to the parameters of layer i.
 
     Args:
         per_sample_gradient (dict[str, torch.Tensor]): A dictionary of per-sample gradients. {'fc1.weight': [B, D_out, D_in], ...}
@@ -168,9 +174,6 @@ def get_EF_Hessian(per_sample_gradient, layer_name_list):
         torch.Tensor: The full Empirical Fisher matrix, assembled from all blocks,
                       with shape [P, P], where P is the total number of model parameters.
     """
-    
-    # The nested loops below construct the full EF matrix block by block.
-    # The (i, j) block is (∂ℓ_n/∂θ^(i))^T @ ∂ℓ_n/∂θ^(j) where ∂ℓ_n/∂θ^(i) is the gradient of the loss for sample n with respect to the parameters of layer i.
     
     full_EF_rows = []
     
