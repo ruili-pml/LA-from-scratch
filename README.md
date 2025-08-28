@@ -11,8 +11,8 @@ Each posterior structure is implemented in a self-contained, single Python file,
 * **Posterior Covariance Structures**:
     * Full Covariance
     * Diagonal Covariance
-    * KFAC Covariance_ (TODO)
-    * 
+    * KFAC Covariance (TODO)
+      
 * **Hessian Approximations**:
     * Generalized Gauss-Newton (GGN)
     * Empirical Fisher (EF)
