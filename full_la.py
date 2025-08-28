@@ -174,9 +174,9 @@ def get_EF_Hessian(per_sample_gradient, layer_name_list):
     
     full_EF_rows = []
     
-    for layer_name_1 in ['fc1', 'fc2', 'fc3']:
+    for layer_name_1 in layer_name_list:
         current_row_blocks = []
-        for layer_name_2 in ['fc1', 'fc2', 'fc3']:
+        for layer_name_2 in layer_name_list:
             # Compute current EF block
             grad1 = per_sample_gradient[f"{layer_name_1}.weight"].flatten(start_dim = 1).unsqueeze(2) # [B, Dout_1, Din_1] -> [B, Dout_1 * Din_1] ->  [B, Dout_1 * Din_1, 1]
             grad2 = per_sample_gradient[f"{layer_name_2}.weight"].flatten(start_dim = 1).unsqueeze(1) # [B, Dout_2, Din_2] -> [B, Dout_2 * Din_2] -> [B, 1, Dout_2 * Din_2]
