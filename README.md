@@ -10,15 +10,19 @@ Each posterior structure is implemented in a self-contained, single Python file,
 
 * **Posterior Covariance Structures**:
     * Full Covariance
+    * KFAC Covariance 
     * Diagonal Covariance
-    * KFAC Covariance (TODO)
+
       
 * **Hessian Approximations**:
     * Generalized Gauss-Newton (GGN)
     * Empirical Fisher (EF)
+    Tested with [`curvlinops`](https://github.com/f-dangel/curvlinops) to ensure correctness.
 
 * **Prior optimising**:
     * Marginal Likelihood
+    
+    Tested with [`laplace-redux`](https://github.com/AlexImmer/laplace-redux) to ensure correctness.
 
 * **Prediction Methods**:
     * Sampling
@@ -30,8 +34,17 @@ The implementation is broken down by the covariance structure.
 
 ### LA with full covariance
 
-`full_la.py` implements LA with a full covariance matrix. The Hessian can be estimated using either GGN or EF. This method is computationally expensive but captures the full parameter correlations.
+`full_la.py` implements LA with a full covariance matrix. 
+The Hessian can be estimated using either GGN or EF. 
+This method is computationally expensive but captures the full parameter correlations.
+
+### LA with KFAC covariance
+`kfac_la.ipynb` implements LA with a Kronecker-factored (KFAC) covariance. 
+The Hessian can be estimated using either GGN or EF. 
+This method offers a compromise between the full and diagonal structures by dropping the cross-layer correlation.
 
 ### LA with diagonal covariance
 
-`diag_la.py` implements LA with a diagonal covariance matrix. The Hessian can be estimated using either GGN or EF. This is a highly efficient and scalable version of Laplace that assumes no correlation between parameters.
+`diag_la.py` implements LA with a diagonal covariance matrix. 
+The Hessian can be estimated using either GGN or EF. 
+This is a highly efficient and scalable version of Laplace that assumes no correlation between parameters.
