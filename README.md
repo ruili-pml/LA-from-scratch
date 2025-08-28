@@ -17,20 +17,20 @@ Each posterior structure is implemented in a self-contained, single Python file,
 * **Hessian Approximations**:
     * Generalized Gauss-Newton (GGN)
     * Empirical Fisher (EF)
-    Tested with [`curvlinops`](https://github.com/f-dangel/curvlinops) to ensure correctness.
+
+
 
 * **Prior optimising**:
     * Marginal Likelihood
     
-    Tested with [`laplace-redux`](https://github.com/AlexImmer/laplace-redux) to ensure correctness.
-
 * **Prediction Methods**:
     * Sampling
-    * GLM (Generalized Linear Model)(TODO) 
+
+Hessian approximation is tested with [`curvlinops`](https://github.com/f-dangel/curvlinops) to ensure correctness. 
+Marginal likelihood computation is tested with with [`laplace-redux`](https://github.com/AlexImmer/laplace-redux) to ensure correctness.
+
 
 ## File Structure
-
-The implementation is broken down by the covariance structure.
 
 ### LA with full covariance
 
